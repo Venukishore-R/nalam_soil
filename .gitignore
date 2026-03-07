@@ -1,0 +1,27 @@
+*.log
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Frontend artifacts
+nalam_soil_frontend/node_modules/
+nalam_soil_frontend/dist/
+nalam_soil_frontend/.vite/
+nalam_soil_frontend/.env
+nalam_soil_frontend/.env.*
+
+# Backend artifacts
+nalam_soil_backend/node_modules/
+nalam_soil_backend/.env
+nalam_soil_backend/.env.*
+nalam_soil_backend/prisma/dev.db
+nalam_soil_backend/prisma/migrations/dev.db
+
+# IDE/editor
+.vscode/
+.idea/

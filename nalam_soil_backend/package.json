@@ -1,0 +1,34 @@
+{
+  "name": "nalam_soil_backend",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "prisma:generate": "prisma generate",
+    "prisma:dbpush": "prisma db push"
+  },
+  "keywords": [
+    "farmers",
+    "registration",
+    "api"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "TypeScript API for farmer registration and login",
+  "dependencies": {
+    "@prisma/client": "^5.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.22",
+    "@types/node": "^22.5.7",
+    "prisma": "^5.6.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
