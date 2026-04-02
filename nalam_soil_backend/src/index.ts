@@ -1,26 +1,26 @@
-import 'dotenv/config'
-import express from 'express'
-import cors from 'cors'
-import farmerRouter from './router'
-import { initDatabase } from './config/database'
+import express from "express";
+import cors from "cors";
+import { soilTestRouter } from "./routes/soil-test";
+import { authRouter } from "./routes/auth";
+import { sensorRouter } from "./routes/sensor";
 
 const app = express();
+const PORT = process.env.PORT || 3001;
 
+// Middleware
 app.use(cors());
-app.use(express.json({ limit: "1mb" }));
-app.use("/api", farmerRouter);
+app.use(express.json());
 
-app.get('/', (_req, res) => res.send('Nalam soil backend is running'));
+// Routes
+app.use("/api", authRouter);
+app.use("/api", soilTestRouter);
+app.use("/api", sensorRouter);
 
-const start = async () => {
-  await initDatabase();
-  const PORT = Number(process.env.PORT ?? 4000);
-  app.listen(PORT, () => {
-    console.log(`Backend listening on http://localhost:${PORT}`);
-  });
-};
+// Health check
+app.get("/health", (req, res) => {
+  res.json({ status: "OK", timestamp: new Date().toISOString() });
+});
 
-start().catch((error) => {
-  console.error("server-start-error", error);
-  process.exit(1);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

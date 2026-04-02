@@ -1,0 +1,332 @@
+:root {
+  --primary: #a55c01;
+  --primary-dark: #7a4300;
+  --bg-soft: #f9f3ed;
+  --bg-gradient: linear-gradient(180deg, #fff6ec 0%, #f3e5d9 60%, #f1e0d1 100%);
+  --card-shadow: 0 12px 24px rgba(57, 22, 7, 0.15);
+  --text-dark: #3a2b1c;
+  font-family:
+    "Inter",
+    "Poppins",
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-soft);
+  color: var(--text-dark);
+}
+
+#root {
+  width: 100%;
+}
+
+.auth-page {
+  min-height: 100vh;
+  background: var(--bg-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem 3rem;
+}
+
+.auth-card {
+  width: min(560px, 100%);
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 3rem 2.5rem;
+  box-shadow: none;
+}
+
+.auth-heading {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.auth-heading h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.auth-heading p {
+  margin: 0.35rem 0 0;
+  color: #746556;
+  font-size: 0.95rem;
+}
+
+.auth-form .ant-form-item-label > label {
+  font-weight: 600;
+  color: #58412f;
+}
+
+.auth-form .ant-input,
+.auth-form .ant-input-affix-wrapper,
+.auth-form .ant-select-selector,
+.auth-form .ant-input-password > .ant-input {
+  border-radius: 6px;
+  border-color: #e1d5ca;
+  background: #fbf7f3;
+}
+
+.auth-form .ant-btn-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  border-radius: 14px;
+  font-weight: 600;
+  height: 44px;
+}
+
+.auth-form .ant-btn-primary,
+.cta-btn {
+  border-radius: 8px;
+}
+
+.auth-form .ant-btn-primary:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.auth-note,
+.auth-note a {
+  color: #6c5c49;
+  font-size: 0.9rem;
+}
+
+.auth-note a {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.dual-field-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.dual-field-row .ant-form-item {
+  flex: 1;
+}
+
+.crop-checkboxes .ant-checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.crop-checkboxes .ant-checkbox-wrapper:last-child {
+  margin-bottom: 0;
+}
+
+.home-shell {
+  min-height: 100vh;
+  background: var(--bg-soft);
+}
+
+.home-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--primary);
+  color: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo-pill {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.brand-group .brand-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.user-pill {
+  background: #bb7d22;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.home-page {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 2rem 1rem 2.5rem;
+}
+
+.brand-tagline {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #f8deb2;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.stat-card {
+  background: #fdf9f7;
+  border-radius: 8px;
+  padding: 1.5rem;
+  border: 1px solid #f2e7dc;
+}
+
+.stat-card h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #816049;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin: 0.4rem 0;
+}
+
+.stat-meta {
+  font-size: 0.9rem;
+  color: #66605a;
+}
+
+.cta-card {
+  background: #f5e1c6;
+  border-radius: 8px;
+  padding: 1.75rem 2rem;
+  border: 1px solid #e6ccb2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  box-shadow: none;
+}
+
+.cta-text h4 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.cta-text p {
+  margin: 0.4rem 0 0;
+  color: #6a5546;
+}
+
+.cta-btn {
+  background: var(--primary);
+  border: none;
+  color: #fff;
+  padding: 0.9rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.cta-btn:hover {
+  transform: translateY(-1px);
+  background: var(--primary-dark);
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.feature-card {
+  background: #fff;
+  border-radius: 6px;
+  padding: 1.5rem;
+  border: 1px solid #f2e7dc;
+  box-shadow: none;
+}
+
+.feature-card .feature-icon {
+  font-size: 26px;
+}
+
+.feature-card h4 {
+  margin: 0.75rem 0 0.35rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.feature-card p {
+  margin: 0;
+  color: #6a5a50;
+  font-size: 0.95rem;
+}
+
+.recent-card {
+  margin-top: 2rem;
+  border-radius: 6px;
+  padding: 1.75rem;
+  border: 1px solid #ded1c1;
+  background: #fff;
+  box-shadow: none;
+}
+
+.recent-card h4 {
+  margin: 0 0 0.8rem;
+  font-size: 1.2rem;
+}
+
+.recent-empty {
+  color: #8b7764;
+  padding: 1rem 0;
+}
+
+.soil-test-modal .ant-modal-content {
+  border-radius: 26px;
+}
+
+.soil-test-form .ant-form-item {
+  margin-bottom: 1rem;
+}
+
+.soil-test-form .ant-input,
+.soil-test-form .ant-select-selector {
+  border-radius: 6px;
+  border-color: #e1d5ca;
+  background: #fbf7f3;
+}
+
+.soil-test-form .ant-form-item-label > label {
+  color: #4b3a2d;
+  font-weight: 600;
+}
+
+.soil-test-form .ant-btn-primary {
+  border-radius: 8px;
+  background: var(--primary);
+  border-color: var(--primary);
+  height: 44px;
+}

@@ -1,48 +1,105 @@
-# Nalam Soil Farmer Portal
+# Nalam Soil
 
-This project contains a lightweight **Node.js** backend and a **React/Vite** frontend for farmer registration and login.
+A comprehensive soil nutrient analysis application for farmers, built with React and Node.js.
 
-## Backend (`nalam_soil_backend`)
+## Project Structure
 
- - Built with **Express.js** and compiled from TypeScript (`src/index.ts`). Express handles JSON parsing and CORS before handing requests to the router.
- - Folder layout:
-   - `config/` boots the Prisma-powered SQLite database.
-  - `models/` encapsulate CRUD helpers plus the shared `.d.ts` type file for server payloads.
-  - `services/` contain the business logic for registration and login (validation + persistence).
-  - `controllers/` orchestrate the HTTP layer by calling the services and returning responses.
-   - `middleware/` protects the routes with the `X-App-Secret` header.
-   - `router/` wires `/register` and `/login`.
-   - `utils/` shares the JSON responder helper.
- - SQLite/Prisma: `prisma/schema.prisma` defines the `Farmer` model plus the `LandUnit` enum; `config/database.ts` initializes the Prisma client against `data/farmers.db`. `cropCategories` is stored natively as JSON.
- - Environment variables (see `nalam_soil_backend/.env`):
-   - `APP_SECRET` (default `open-sesame`) must match `VITE_APP_SECRET` used by the frontend.
-   - `DATABASE_URL` (default `file:./data/farmers.db`) points Prisma at the SQLite file.
-   - `PORT` (default `4000`) controls where Express listens.
- - Installation/build steps:
+This repository contains two main applications:
+
+- `nalam_soil_frontend/` - React frontend application
+- `nalam_soil_backend/` - Node.js/Express backend API
+
+## Features
+
+- **User Authentication**: Secure login and registration system
+- **Soil Testing**: NPK (Nitrogen, Phosphorous, Potassium) analysis
+- **Crop-Specific Recommendations**: Tailored advice based on crop type and growth stage
+- **Yield Estimation**: Predictive analytics for crop yields
+- **Responsive Design**: Works on desktop and mobile devices
+
+## Tech Stack
+
+### Frontend
+
+- React 18 with TypeScript
+- Ant Design UI components
+- Tailwind CSS for styling
+- React Router for navigation
+- Axios for API calls
+
+### Backend
+
+- Node.js with Express
+- TypeScript
+- SQLite database for user data
+- bcryptjs for password hashing
+- Zod for validation
+- CORS enabled
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm or yarn
+
+### Installation & Setup
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd nalam-soil
+   ```
+
+2. **Setup Backend**
+
    ```bash
    cd nalam_soil_backend
-   npm install            # installs Express, Prisma, and TypeScript; requires internet
-   npx prisma generate
-   npx prisma db push     # creates/migrates the SQLite file
-   npm run build
-   npm start
+   npm install
+   npm run dev
    ```
- - For development (no build) run `npm run dev`.
 
-## Frontend (`nalam_soil_frontend`)
+   Backend will run on http://localhost:3001
 
-- React + Vite UI with registration and login forms.
-- Reads:
-  - `VITE_API_BASE` to locate the backend (defaults to `http://localhost:4000/api`).
-  - `VITE_APP_SECRET` to keep in sync with `APP_SECRET` (defaults to `open-sesame`).
-- To run:
-  ```bash
-  cd nalam_soil_frontend
-  npm install
-  npm run dev
-  ```
+3. **Setup Frontend** (in a new terminal)
 
-## Flow
+   ```bash
+   cd nalam_soil_frontend
+   npm install
+   npm run dev
+   ```
 
-1. Register a farmer with their name, mobile number, password, village, district, landholding (value + unit), and comma-separated crop list.
-2. Use the registered mobile number and password to log in, which shows a summary card with the farmer's contact info.
+   Frontend will run on http://localhost:5173
+
+4. **Access the Application**
+   Open http://localhost:5173 in your browser
+
+## API Documentation
+
+The backend provides RESTful APIs for soil analysis. See `nalam_soil_backend/README.md` for detailed API documentation.
+
+## Supported Crops
+
+- Paddy (Rice)
+- Sorghum
+- Sugarcane
+- Radish
+- Tapioca
+
+## Development
+
+- Frontend uses Vite for fast development
+- Backend uses ts-node-dev for hot reloading
+- Both applications include TypeScript for type safety
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.
