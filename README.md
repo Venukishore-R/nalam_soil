@@ -1,104 +1,92 @@
 # Nalam Soil
 
-A comprehensive soil nutrient analysis application for farmers, built with React and Node.js.
+A comprehensive soil nutrient analysis platform that pairs a React/Tailwind frontend with a TypeScript/Express + SQLite backend so farmers get crop-specific NPK recommendations and yield estimates.
 
-## Project Structure
+## Prerequisites
 
-This repository contains two main applications:
+- Node.js **v18 or higher** (LTS recommended)
+- npm (v10+) or yarn
+- Git for cloning the repo
 
-- `nalam_soil_frontend/` - React frontend application
-- `nalam_soil_backend/` - Node.js/Express backend API
+## Project layout
 
-## Features
+- `nalam_soil_backend/` – Express + TypeScript API that talks to `better-sqlite3` and exposes `/api` routes
+- `nalam_soil_frontend/` – Vite-powered React app (Ant Design + Tailwind) that calls the backend
+- `README.md` files inside each application for deeper API or UI documentation
 
-- **User Authentication**: Secure login and registration system
-- **Soil Testing**: NPK (Nitrogen, Phosphorous, Potassium) analysis
-- **Crop-Specific Recommendations**: Tailored advice based on crop type and growth stage
-- **Yield Estimation**: Predictive analytics for crop yields
-- **Responsive Design**: Works on desktop and mobile devices
+## Quick start
 
-## Tech Stack
-
-### Frontend
-
-- React 18 with TypeScript
-- Ant Design UI components
-- Tailwind CSS for styling
-- React Router for navigation
-- Axios for API calls
-
-### Backend
-
-- Node.js with Express
-- TypeScript
-- SQLite database for user data
-- bcryptjs for password hashing
-- Zod for validation
-- CORS enabled
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v18 or higher)
-- npm or yarn
-
-### Installation & Setup
-
-1. **Clone the repository**
+1. **Clone and enter the project root**
 
    ```bash
    git clone <repository-url>
-   cd nalam-soil
+   cd nalam_soil
    ```
 
-2. **Setup Backend**
+2. **Install dependencies**
 
    ```bash
    cd nalam_soil_backend
    npm install
+   cd ../nalam_soil_frontend
+   npm install
+   cd ..
+   ```
+
+3. **Run the backend**
+
+   ```bash
+   cd nalam_soil_backend
    npm run dev
    ```
 
-   Backend will run on http://localhost:6001
+   - Listens on `http://localhost:6001`
+   - The bundled SQLite file (`nalam_soil_backend/nalam_soil.db`) ships with the schema and sample data; no additional migration steps are required.
+   - Use `PORT=1234 npm run dev` if you need a different port.
+   - Dev mode skips a build, but if you need a production-like run or want to use the compiled output, run `npm run build` before `npm run start`.
 
-3. **Setup Frontend** (in a new terminal)
+4. **Run the frontend** (new terminal)
 
    ```bash
    cd nalam_soil_frontend
-   npm install
    npm run dev
    ```
 
-   Frontend will run on http://localhost:5173
+   - Vite serves the UI on `http://localhost:5173` by default.
+   - The frontend expects the backend at `http://localhost:6001/api` (see `src/lib/api.ts` for overrides if you change ports).
 
-4. **Access the Application**
-   Open http://localhost:5173 in your browser
+5. **Browse the app**
 
-## API Documentation
+   Open `http://localhost:5173` in your browser. User registration/login, soil testing, and recommendations will work once both services are running.
 
-The backend provides RESTful APIs for soil analysis. See `nalam_soil_backend/README.md` for detailed API documentation.
+## Alternative workflows
 
-## Supported Crops
+- **Backend production**: `cd nalam_soil_backend && npm run build && npm run start`
+- **Frontend preview**: `cd nalam_soil_frontend && npm run build && npm run preview`
+- **Healthcheck**: `curl http://localhost:6001/health` returns `{ status: "OK" }`
+-
+- Read `nalam_soil_backend/README.md` for detailed API docs and `nalam_soil_frontend/README.md` for UI-specific instructions.
 
-- Paddy (Rice)
-- Sorghum
-- Sugarcane
-- Radish
-- Tapioca
+## Features
 
-## Development
+- User authentication (register/login via `/api/register` and `/api/login`)
+- Soil test engine that analyzes nitrogen, phosphorus, potassium and returns fertilizer advice
+- Crop-specific recommendations for Paddy, Sorghum, Sugarcane, Radish, Tapioca
+- Responsive React/Tailwind UI with Ant Design components
+- Type-safe backend powered by Zod schemas and SQLite persistence
 
-- Frontend uses Vite for fast development
-- Backend uses ts-node-dev for hot reloading
-- Both applications include TypeScript for type safety
+## Developing
+
+- Backend hot-reloads with `ts-node-dev`
+- Frontend uses Vite’s dev server for instant refreshes
+- Keep both terminals alive while working: backend on :6001, frontend on :5173
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+1. Fork the repo
+2. Create a descriptive branch (e.g., `feat/soil-recommendation`)
+3. Make your changes and run the respective `npm run dev` to verify
+4. Open a pull request with testing notes
 
 ## License
 
