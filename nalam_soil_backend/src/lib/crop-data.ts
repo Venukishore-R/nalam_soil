@@ -1,4 +1,4 @@
-import { CropType } from "./types";
+import { CropType, UnitType } from "./types";
 
 export const CROPS: CropType[] = [
   "Sorghum",
@@ -94,4 +94,18 @@ export function convertToAcres(value: number, unit: string): number {
     default:
       return value;
   }
+}
+
+const PER_ACRE_TO_UNIT_MULTIPLIER: Record<UnitType, number> = {
+  acre: 1,
+  hectare: UNIT_CONVERSION.hectare_to_acre,
+  square_meter: 1 / UNIT_CONVERSION.acre_to_square_meter,
+};
+
+export function convertPerHectareToPerAcre(value: number): number {
+  return value * UNIT_CONVERSION.acre_to_hectare;
+}
+
+export function convertPerAcreToUnit(value: number, unit: UnitType): number {
+  return value * PER_ACRE_TO_UNIT_MULTIPLIER[unit];
 }

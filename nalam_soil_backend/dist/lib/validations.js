@@ -28,6 +28,7 @@ exports.soilTestSchema = zod_1.z
     soilType: zod_1.z.string().optional(),
     variety: zod_1.z.string().optional(),
     dayAfterPlanting: zod_1.z.coerce.number().optional(),
+    growthStage: zod_1.z.string().optional(),
     landholdingOfCrop: zod_1.z.coerce
         .number()
         .positive("Landholding must be positive"),
@@ -61,4 +62,14 @@ exports.soilTestSchema = zod_1.z
 }, {
     message: "Days after planting is required for this crop",
     path: ["dayAfterPlanting"],
+})
+    .refine((data) => {
+    if ((data.cropName === "Radish" || data.cropName === "Tapioca") &&
+        !data.growthStage) {
+        return false;
+    }
+    return true;
+}, {
+    message: "Growth stage is required for this crop",
+    path: ["growthStage"],
 });

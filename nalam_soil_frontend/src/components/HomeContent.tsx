@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../lib/auth-context";
 import { Modal, List, Tag, Typography } from "antd";
 import {
@@ -8,6 +8,8 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import SoilTestForm from "./SoilTestForm";
+import { UNIT_LABELS } from "../lib/crop-data";
+import { FertilizerRecommendationLine } from "../lib/types";
 
 const { Text } = Typography;
 
@@ -110,20 +112,111 @@ function HomeContent() {
               dataSource={soilTests}
               renderItem={(test: any) => (
                 <List.Item>
-                  <div className="flex justify-between w-full">
-                    <div>
-                      <Text strong>{test.cropName}</Text>
-                      <br />
-                      <Text type="secondary" style={{ fontSize: 12 }}>
-                        {test.timestamp}
-                      </Text>
+                  <div className="test-card">
+                    <div className="test-header">
+                      <div>
+                        <Text strong>{test.cropName}</Text>
+                        <br />
+                        <Text type="secondary" style={{ fontSize: 12 }}>
+                          {new Date(test.timestamp).toLocaleString()}
+                        </Text>
+                        <br />
+                        <Text type="secondary" style={{ fontSize: 12 }}>
+                          {(test.soilType || "Sorghum soil")} · Landholding:{" "}
+                          {test.landholdingOfCrop.toFixed(2)}{" "}
+                          {UNIT_LABELS[test.unit]}{" "}
+                          {test.finalRecommendation &&
+                            `(≈${test.finalRecommendation.landholdingInAcres.toFixed(
+                              2,
+                            )} ac)`}
+                        </Text>
+                      </div>
+
+                      {(() => {
+                        const nutrientValues = test.nutrients || {
+                          nitrogen: test.nitrogen,
+                          phosphorous: test.phosphorous,
+                          potassium: test.potassium,
+                        };
+
+                        return (
+                          <div className="flex flex-col items-end gap-1">
+                            <Tag color="blue">
+                              N: {nutrientValues.nitrogen ?? "—"}
+                            </Tag>
+                            <Tag color="green">
+                              P: {nutrientValues.phosphorous ?? "—"}
+                            </Tag>
+                            <Tag color="orange">
+                              K: {nutrientValues.potassium ?? "—"}
+                            </Tag>
+                          </div>
+                        );
+                      })()}
                     </div>
 
-                    <div>
-                      <Tag color="blue">N: {test.nitrogen}</Tag>
-                      <Tag color="green">P: {test.phosphorous}</Tag>
-                      <Tag color="orange">K: {test.potassium}</Tag>
-                    </div>
+                    {test.finalRecommendation && (
+                      <div className="recommendation-card">
+                        <h5>Fertilizer recommendation</h5>
+                        <div className="nutrient-grid">
+                          {[
+                            {
+                              label: "Urea",
+                              perUnit:
+                                test.finalRecommendation.perUserUnit.urea,
+                              total: test.finalRecommendation.totals.urea,
+                            },
+                            {
+                              label: "SSP",
+                              perUnit:
+                                test.finalRecommendation.perUserUnit.ssp,
+                              total: test.finalRecommendation.totals.ssp,
+                            },
+                            {
+                              label: "MOP",
+                              perUnit:
+                                test.finalRecommendation.perUserUnit.mop,
+                              total: test.finalRecommendation.totals.mop,
+                            },
+                          ].map((item) => (
+                            <div className="nutrient-block" key={item.label}>
+                              <Text strong>{item.label}</Text>
+                              <span>
+                                {item.perUnit.value.toFixed(2)}{" "}
+                                {item.perUnit.unit}
+                              </span>
+                              <span>
+                                Total: {item.total.value.toFixed(2)}{" "}
+                                {item.total.unit}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="fertilizer-grid">
+                          {test.finalRecommendation.baseFertilizers
+                            .filter(
+                              (item) =>
+                                !["Urea", "SSP", "MOP"].includes(item.label),
+                            )
+                            .map((item) => (
+                              <div
+                                className="fertilizer-block"
+                                key={item.label}
+                              >
+                                <Text strong>{item.label}</Text>
+                                <span>
+                                  {item.perUnitValue.toFixed(2)}{" "}
+                                  {item.perUnitLabel}
+                                </span>
+                                <span>
+                                  Total: {item.totalValue.toFixed(2)}{" "}
+                                  {item.totalUnit}
+                                </span>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </List.Item>
               )}

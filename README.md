@@ -60,7 +60,7 @@ This repository contains two main applications:
    npm run dev
    ```
 
-   Backend will run on http://localhost:3001
+   Backend will run on http://localhost:6001
 
 3. **Setup Frontend** (in a new terminal)
 

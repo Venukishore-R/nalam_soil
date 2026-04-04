@@ -9,7 +9,7 @@ const soil_test_1 = require("./routes/soil-test");
 const auth_1 = require("./routes/auth");
 const sensor_1 = require("./routes/sensor");
 const app = (0, express_1.default)();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 6001;
 // Middleware
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());

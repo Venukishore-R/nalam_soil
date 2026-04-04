@@ -5,7 +5,7 @@ import { authRouter } from "./routes/auth";
 import { sensorRouter } from "./routes/sensor";
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 6001;
 
 // Middleware
 app.use(cors());

@@ -69,4 +69,4 @@ src/
 
 ## API Integration
 
-The frontend communicates with the backend API at `http://localhost:3001/api`. Make sure the backend server is running.
+The frontend communicates with the backend API at `http://localhost:6001/api`. Make sure the backend server is running.

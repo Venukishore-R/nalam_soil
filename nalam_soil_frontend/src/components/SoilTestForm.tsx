@@ -6,6 +6,7 @@ import {
   SOIL_TYPES,
   VARIETIES,
   DAYS_AFTER_PLANTING,
+  CROP_GROWTH_STAGES,
 } from "../lib/crop-data";
 const { Option } = Select;
 
@@ -18,6 +19,8 @@ function SoilTestForm({ onSubmit, onClose }: SoilTestFormProps) {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = React.useState(false);
   const cropName = Form.useWatch("cropName", form);
+  const showsGrowthStageField =
+    cropName === "Radish" || cropName === "Tapioca";
 
   const handleFinish = async (values: any) => {
     setIsLoading(true);
@@ -86,6 +89,29 @@ function SoilTestForm({ onSubmit, onClose }: SoilTestFormProps) {
               {VARIETIES[cropName as keyof typeof VARIETIES]?.map((variety) => (
                 <Option key={variety} value={variety}>
                   {variety}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+        )}
+
+        {showsGrowthStageField && (
+          <Form.Item
+            label="Growth Stage"
+            name="growthStage"
+            rules={[
+              {
+                required: true,
+                message: "Please select the growth stage",
+              },
+            ]}
+          >
+            <Select placeholder="Select stage">
+              {CROP_GROWTH_STAGES[
+                cropName as keyof typeof CROP_GROWTH_STAGES
+              ]?.map((stage) => (
+                <Option key={stage} value={stage}>
+                  {stage}
                 </Option>
               ))}
             </Select>

@@ -2,6 +2,11 @@ import { Router, Request, Response } from "express";
 import { soilTestSchema } from "../lib/validations";
 import { convertToAcres } from "../lib/crop-data";
 import { analyzeNutrients } from "../lib/nutrient-analyzer";
+import { getLatestSensorRecord, SensorRecord } from "../lib/sensor-store";
+import {
+  calculateCropRecommendation,
+  SUPPORTED_FERTILIZER_CROPS,
+} from "../lib/crop-fertilizer";
 
 const router = Router();
 
@@ -9,6 +14,7 @@ router.post("/soil-test", async (req: Request, res: Response) => {
   try {
     const body = req.body;
 
+    console.log("[SoilTest] payload", body);
     // Validate input
     const validatedData = soilTestSchema.parse(body);
 
@@ -19,19 +25,40 @@ router.post("/soil-test", async (req: Request, res: Response) => {
     );
 
     // Extract nutrient values from request (these would come from soil test device/sensor)
-    const nutrients = {
-      nitrogen: body.nitrogen || 250, // placeholder - in real app comes from sensor
-      phosphorous: body.phosphorous || 20,
-      potassium: body.potassium || 200,
+    const latestSensor = getLatestSensorRecord();
+    const defaultSensor: SensorRecord = {
+      id: 0,
+      timestamp: new Date().toISOString(),
+      nitrogen: 250,
+      phosphorous: 20,
+      potassium: 200,
     };
+    const sensorData = latestSensor ?? defaultSensor;
 
     // Analyze nutrients
     const analysisResult = analyzeNutrients(
-      nutrients,
+      sensorData,
       validatedData.cropName,
       landholdingAcres,
     );
 
+    const finalRecommendation = SUPPORTED_FERTILIZER_CROPS.includes(
+      validatedData.cropName,
+    )
+      ? calculateCropRecommendation({
+          cropType: validatedData.cropName,
+          sensor: sensorData,
+          soilType: validatedData.soilType || null,
+          variety: validatedData.variety || null,
+          growthStage: validatedData.growthStage || null,
+          unit: validatedData.unit,
+          landholding: validatedData.landholdingOfCrop,
+          landholdingInAcres: landholdingAcres,
+        })
+      : null;
+
+    console.log("[SoilTest] sensor", sensorData, "landholdingAcres", landholdingAcres);
+    console.log("[SoilTest] finalRecommendation", finalRecommendation);
     // Prepare response
     const response = {
       success: true,
@@ -41,18 +68,22 @@ router.post("/soil-test", async (req: Request, res: Response) => {
         cropName: validatedData.cropName,
         soilType: validatedData.soilType || null,
         variety: validatedData.variety || null,
+        growthStage: validatedData.growthStage || null,
         dayAfterPlanting: validatedData.dayAfterPlanting || null,
         originalLandholding: {
           value: validatedData.landholdingOfCrop,
           unit: validatedData.unit,
         },
+        landholdingOfCrop: validatedData.landholdingOfCrop,
+        unit: validatedData.unit,
         landholdingInAcres: parseFloat(landholdingAcres.toFixed(2)),
         nutrients: {
-          nitrogen: nutrients.nitrogen,
-          phosphorous: nutrients.phosphorous,
-          potassium: nutrients.potassium,
+          nitrogen: sensorData.nitrogen,
+          phosphorous: sensorData.phosphorous,
+          potassium: sensorData.potassium,
         },
         analysis: analysisResult,
+        finalRecommendation,
       },
     };
 

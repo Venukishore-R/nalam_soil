@@ -28,6 +28,7 @@ export const soilTestSchema = z
     soilType: z.string().optional(),
     variety: z.string().optional(),
     dayAfterPlanting: z.coerce.number().optional(),
+    growthStage: z.string().optional(),
     landholdingOfCrop: z.coerce
       .number()
       .positive("Landholding must be positive"),
@@ -75,6 +76,21 @@ export const soilTestSchema = z
     {
       message: "Days after planting is required for this crop",
       path: ["dayAfterPlanting"],
+    },
+  )
+  .refine(
+    (data) => {
+      if (
+        (data.cropName === "Radish" || data.cropName === "Tapioca") &&
+        !data.growthStage
+      ) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Growth stage is required for this crop",
+      path: ["growthStage"],
     },
   );
 

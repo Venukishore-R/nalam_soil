@@ -25,6 +25,56 @@ export interface SoilTestData {
   phosphorous: number;
   potassium: number;
   createdAt: Date;
+  finalRecommendation?: FinalRecommendation;
+}
+
+export interface NutrientRecommendationBlock {
+  value: number;
+  unit: string;
+}
+
+export interface FertilizerRecommendationLine {
+  label: string;
+  perUnitValue: number;
+  perUnitLabel: string;
+  totalValue: number;
+  totalUnit: string;
+}
+
+export interface FinalRecommendation {
+  unit: UnitType;
+  landholding: number;
+  landholdingInAcres: number;
+  soilType: string | null;
+  soilKey: string;
+  cropType: CropType;
+  perUserUnit: {
+    urea: NutrientRecommendationBlock;
+    ssp: NutrientRecommendationBlock;
+    mop: NutrientRecommendationBlock;
+  };
+  totals: {
+    urea: NutrientRecommendationBlock;
+    ssp: NutrientRecommendationBlock;
+    mop: NutrientRecommendationBlock;
+  };
+  baseFertilizers: FertilizerRecommendationLine[];
+}
+
+export interface SoilTestData {
+  id: string;
+  userId: string;
+  cropName: CropType;
+  soilType: string;
+  variety?: string;
+  dayAfterPlanting?: number;
+  landholdingOfCrop: number;
+  unit: UnitType;
+  nitrogen: number;
+  phosphorous: number;
+  potassium: number;
+  createdAt: Date;
+  finalRecommendation?: FinalRecommendation;
 }
 
 export interface SoilTypeOption {

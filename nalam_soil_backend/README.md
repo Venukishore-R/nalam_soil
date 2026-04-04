@@ -69,7 +69,7 @@ CREATE TABLE users (
    npm run dev
    ```
 
-The server will start on [http://localhost:3001](http://localhost:3001).
+The server will start on [http://localhost:6001](http://localhost:6001).
 
 ## Available Scripts
 

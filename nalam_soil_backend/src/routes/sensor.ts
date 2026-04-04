@@ -1,5 +1,9 @@
 import { Router } from "express";
 import { z } from "zod";
+import {
+  addSensorRecord,
+  getSensorHistory,
+} from "../lib/sensor-store";
 
 const router = Router();
 
@@ -9,13 +13,6 @@ const sensorSchema = z.object({
   potassium: z.number().nonnegative(),
 });
 
-type SensorRecord = z.infer<typeof sensorSchema> & {
-  id: number;
-  timestamp: string;
-};
-
-const sensorDataStore: SensorRecord[] = [];
-
 router.post("/sensor-data", (req, res) => {
   try {
     const data = sensorSchema.parse(req.body);
@@ -24,13 +21,7 @@ router.post("/sensor-data", (req, res) => {
       `[SensorData] Received nitrogen=${data.nitrogen}, phosphorous=${data.phosphorous}, potassium=${data.potassium}`,
     );
 
-    const record: SensorRecord = {
-      id: sensorDataStore.length + 1,
-      timestamp: new Date().toISOString(),
-      ...data,
-    };
-
-    sensorDataStore.push(record);
+    const record = addSensorRecord(data);
 
     return res.status(201).json({ success: true, data: record });
   } catch (error) {
@@ -48,7 +39,7 @@ router.post("/sensor-data", (req, res) => {
 });
 
 router.get("/sensor-data", (_, res) => {
-  return res.json({ success: true, data: sensorDataStore });
+  return res.json({ success: true, data: getSensorHistory() });
 });
 
 export { router as sensorRouter };

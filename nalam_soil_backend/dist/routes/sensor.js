@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.sensorRouter = void 0;
 const express_1 = require("express");
 const zod_1 = require("zod");
+const sensor_store_1 = require("../lib/sensor-store");
 const router = (0, express_1.Router)();
 exports.sensorRouter = router;
 const sensorSchema = zod_1.z.object({
@@ -10,17 +11,11 @@ const sensorSchema = zod_1.z.object({
     phosphorous: zod_1.z.number().nonnegative(),
     potassium: zod_1.z.number().nonnegative(),
 });
-const sensorDataStore = [];
 router.post("/sensor-data", (req, res) => {
     try {
         const data = sensorSchema.parse(req.body);
         console.log(`[SensorData] Received nitrogen=${data.nitrogen}, phosphorous=${data.phosphorous}, potassium=${data.potassium}`);
-        const record = {
-            id: sensorDataStore.length + 1,
-            timestamp: new Date().toISOString(),
-            ...data,
-        };
-        sensorDataStore.push(record);
+        const record = (0, sensor_store_1.addSensorRecord)(data);
         return res.status(201).json({ success: true, data: record });
     }
     catch (error) {
@@ -37,5 +32,5 @@ router.post("/sensor-data", (req, res) => {
     }
 });
 router.get("/sensor-data", (_, res) => {
-    return res.json({ success: true, data: sensorDataStore });
+    return res.json({ success: true, data: (0, sensor_store_1.getSensorHistory)() });
 });

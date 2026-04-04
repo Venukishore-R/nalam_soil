@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UNIT_CONVERSION = exports.CROP_GROWTH_STAGES = exports.UNIT_LABELS = exports.UNITS = exports.DAYS_AFTER_PLANTING = exports.VARIETIES = exports.SOIL_TYPES = exports.CROPS = void 0;
 exports.convertToAcres = convertToAcres;
+exports.convertPerHectareToPerAcre = convertPerHectareToPerAcre;
+exports.convertPerAcreToUnit = convertPerAcreToUnit;
 exports.CROPS = [
     "Sorghum",
     "Sugarcane",
@@ -88,4 +90,15 @@ function convertToAcres(value, unit) {
         default:
             return value;
     }
+}
+const PER_ACRE_TO_UNIT_MULTIPLIER = {
+    acre: 1,
+    hectare: exports.UNIT_CONVERSION.hectare_to_acre,
+    square_meter: 1 / exports.UNIT_CONVERSION.acre_to_square_meter,
+};
+function convertPerHectareToPerAcre(value) {
+    return value * exports.UNIT_CONVERSION.acre_to_hectare;
+}
+function convertPerAcreToUnit(value, unit) {
+    return value * PER_ACRE_TO_UNIT_MULTIPLIER[unit];
 }
