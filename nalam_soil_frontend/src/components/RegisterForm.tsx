@@ -30,9 +30,16 @@ function RegisterForm() {
   const onFinish = async (values: any) => {
     setIsLoading(true);
     try {
+      const cropCategories = Array.isArray(values.cropCategories)
+        ? values.cropCategories
+        : values.cropCategories
+        ? [values.cropCategories]
+        : [];
+
       const body = {
         ...values,
         landholding: Number(values.landholding),
+        cropCategories,
       };
 
       const response = await fetch("/api/register", {
@@ -181,15 +188,16 @@ function RegisterForm() {
               { required: true, message: "Please select at least one crop" },
             ]}
           >
-            <div className="crop-checkboxes">
-              <Checkbox.Group disabled={isLoading}>
-                {CROPS.map((crop) => (
-                  <Checkbox key={crop} value={crop}>
-                    {crop}
-                  </Checkbox>
-                ))}
-              </Checkbox.Group>
-            </div>
+            <Checkbox.Group
+              className="crop-checkboxes"
+              disabled={isLoading}
+            >
+              {CROPS.map((crop) => (
+                <Checkbox key={crop} value={crop}>
+                  {crop}
+                </Checkbox>
+              ))}
+            </Checkbox.Group>
           </Form.Item>
 
           <Form.Item>
